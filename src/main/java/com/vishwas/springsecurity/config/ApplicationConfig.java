@@ -22,11 +22,14 @@ public class ApplicationConfig {
 
     // finding the user from the database.
     // UserDetails object will be returned
+    // The loadUserByUserName is implemented, a method of UserDetailsService interface
     @Bean
     public UserDetailsService userDetailsService(){
         return username -> this.userRepo.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("User not found"));
     }
 
+    // Loads the authenticated user
+    // Indirectly uses the UserDetailsService -> loadUserByUserName() method
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -35,12 +38,14 @@ public class ApplicationConfig {
         return authenticationProvider;
     }
 
-    // Specifying the encoding type password
+    // Specifying the encoding algorithm for password
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
+    // Manages the user is Authentication
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws  Exception{
         return configuration.getAuthenticationManager();

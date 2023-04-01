@@ -41,7 +41,8 @@ public class SecurityConfiguration {
                 .requestMatchers("api/auth/**").permitAll()
 
                 // Can add other url matcher and decide the redirecting based on ROLE
-                //.requestMatchers("api/auth/admin/**").hasAnyAuthority("ADMIN")
+                .requestMatchers("api/demo/admin/**").hasAnyAuthority("ADMIN")
+                .requestMatchers("api/demo/**").hasAnyAuthority("USER")
 
                 // Other than the provided patter above authentication is required.
                 .anyRequest().authenticated()
